@@ -80,6 +80,6 @@ class _SynthStripOutputSpec(TraitedSpec):
 
 
 class SynthStrip(CommandLine):
-    _cmd = "synthstrip"
+    _cmd = "nipreps-synthstrip"
     input_spec = _SynthStripInputSpec
     output_spec = _SynthStripOutputSpec
