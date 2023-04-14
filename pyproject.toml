@@ -46,7 +46,7 @@ test = [
 ]
 
 [project.scripts]
-nipreps-synthstrip = "synthstrip.cli:main"
+nipreps-synthstrip = "nipreps.synthstrip.cli:main"
 
 [tool.hatch.version]
 source = "vcs"
