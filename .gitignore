@@ -1,2 +1,3 @@
-dist/
+__pycache__/
 _version.py
+dist/
