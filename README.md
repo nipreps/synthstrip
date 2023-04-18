@@ -4,19 +4,19 @@ This is a NiPreps implementation of the SynthStrip skull-stripping tool.
 
 ## Installation
 
-```
+```bash
 pip install nipreps-synthstrip
 ```
 
 ### Command Line Tool
 
-```
+```bash
 $ nipreps-synthstrip
 ```
 
 ### Nipype Interface
 
-```
+```python
 from nipreps.synthstrip.interface import SynthStrip
 ```
 
