@@ -24,7 +24,6 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     "nibabel",
-    "nipype",
     "nitransforms",
     "numpy",
     "scipy",
@@ -40,6 +39,9 @@ dev = [
     "black",
     "isort",
     "hatch",
+]
+nipype = [
+    "nipype",
 ]
 test = [
     "pytest",

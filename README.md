@@ -5,7 +5,11 @@ This is a NiPreps implementation of the SynthStrip skull-stripping tool.
 ## Installation
 
 ```bash
+# To install the base package
 pip install nipreps-synthstrip
+
+# For the nipype interface
+pip install nipreps-synthstrip[nipype]
 ```
 
 ### Command Line Tool
@@ -17,7 +21,7 @@ $ nipreps-synthstrip
 ### Nipype Interface
 
 ```python
-from nipreps.synthstrip.interface import SynthStrip
+from nipreps.synthstrip.wrappers.nipype import SynthStrip
 ```
 
 ## Citation
