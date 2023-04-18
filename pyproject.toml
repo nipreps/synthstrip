@@ -3,7 +3,7 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "synthstrip"
+name = "nipreps-synthstrip"
 description = "NiPreps implementation of FreeSurfer's SynthStrip"
 readme = "README.md"
 license = {file = "LICENSE"}
