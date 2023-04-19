@@ -57,7 +57,6 @@ jobs:
           echo version=$VERSION | tee -a $GITHUB_OUTPUT
 
   build:
-    if: github.repository == 'nipreps/synthstrip'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -132,9 +131,7 @@ jobs:
       env:
         VERSION: ${{ needs.job_metadata.outputs.version }}
     - name: Ensure CLI tool is available
-      run: |
-        nipreps-synthstrip -h
-        test $?
+      run: nipreps-synthstrip -h
 
   publish:
     runs-on: ubuntu-latest
