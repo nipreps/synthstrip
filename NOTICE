@@ -1,0 +1,14 @@
+Synthstrip-wrapping for NiPreps
+Copyright 2023 The NiPreps Developers.
+
+This product includes software developed by
+the NiPreps Community (https://nipreps.org/).
+
+This software contains code derived from FreeSurfer, and makes use
+of a large data file storing the trained model.
+Please note that this data file is not distributed with this project
+and must be obtained from FreeSurfer directly.
+A copy of the FreeSurfer software license is available within the
+file ORIGINAL_LICENSE in this project.
+Files derived from FreeSurfer include an STATEMENT OF CHANGES in
+the attribution notice at the head of the file.
