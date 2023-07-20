@@ -106,7 +106,6 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
         (
             'num_threads',
             int,
-            0, # WHAT SHOULD BE DEFAULT FOR N_THREADS?
             {
                 'argstr': "-n",
                 "help_string": "Number of threads",
