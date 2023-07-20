@@ -26,8 +26,6 @@ import os
 import attr
 from pathlib import Path
 import pydra
-import nest_asyncio
-nest_asyncio.apply()
 
 _fs_home = os.getenv("FREESURFER_HOME", None)
 _default_model_path = Path(_fs_home) / "models" / "synthstrip.1.pt" if _fs_home else None
