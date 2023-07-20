@@ -43,6 +43,9 @@ dev = [
 nipype = [
     "nipype",
 ]
+pydra = [
+    "pydra",
+]
 test = [
     "pytest",
 ]
