@@ -17,10 +17,28 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
                 type=str,
                 metadata={
                     'argstr': "-i",
-                    'help_string': 'Input image to be brain extracted',
+                    'help_string': 'Input image to skullstrip',
                     'mandatory': True,
                 },
             ),
+        ),
+        (
+            'out_file',
+            str,
+            # MAKE DEFAULT HERE BASED ON 'in_file'
+            {
+                'argstr': "-o",
+                "help_string": "Save stripped image to path",
+            },
+        ),
+        (
+            'out_mask',
+            str,
+            # MAKE DEFAULT HERE BASED ON 'in_file'
+            {
+                'argstr': "-m",
+                "help_string": "Save binary brain mask to path",
+            },
         ),
         (
             'use_gpu',
@@ -28,16 +46,7 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
             False,
             {
                 'argstr': "-g",
-                'help_string': 'Use GPU',
-            },
-        ),
-        (
-            'model',
-            pydra.specs.File,
-            str(_default_model_path),
-            {
-                'argstr': "--model",
-                "help_string": "file containing model's weights",
+                'help_string': 'Use the GPU',
             },
         ),
         (
@@ -50,24 +59,6 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
             },
         ),
         (
-            'out_file',
-            str,
-            # MAKE DEFAULT HERE BASED ON 'in_file'
-            {
-                'argstr': "-o",
-                "help_string": "store brain-extracted input to file",
-            },
-        ),
-        (
-            'out_mask',
-            str,
-            # MAKE DEFAULT HERE BASED ON 'in_file'
-            {
-                'argstr': "-m",
-                "help_string": "store brainmask to file",
-            },
-        ),
-        (
             'no_csf',
             bool,
             False,
@@ -76,7 +67,15 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
                 'help_string': 'Exclude CSF from brain border',
             },
         ),
-        
+        (
+            'model',
+            pydra.specs.File,
+            str(_default_model_path),
+            {
+                'argstr': "--model",
+                "help_string": "file containing model's weights",
+            },
+        )
     ],
     bases=(pydra.specs.ShellSpec,),
 )
