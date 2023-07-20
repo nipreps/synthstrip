@@ -33,7 +33,7 @@ _fs_home = os.getenv("FREESURFER_HOME", None)
 _default_model_path = Path(_fs_home) / "models" / "synthstrip.1.pt" if _fs_home else None
 
 if _fs_home and not _default_model_path.exists():
-    _default_model_path = Undefined
+    _default_model_path = None
 
 _SynthStripInputSpec = pydra.specs.SpecInfo(
     name='SynthStripInputSpec',
