@@ -36,7 +36,7 @@ from nipreps.synthstrip.wrappers.pydra import SynthStripInputSpec
 SynthStrip = pydra.ShellCommandTask(
     name='SynthStrip',
     executable="nipreps-synthstrip",
-    input_spec = _SynthStripInputSpec
+    input_spec = SynthStripInputSpec
 )
 ```
 
