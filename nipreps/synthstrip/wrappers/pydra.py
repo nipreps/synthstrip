@@ -114,9 +114,3 @@ _SynthStripInputSpec = pydra.specs.SpecInfo(
     ],
     bases=(pydra.specs.ShellSpec,),
 )
-
-SynthStrip = pydra.ShellCommandTask(
-    name='SynthStrip',
-    executable="nipreps-synthstrip",
-    input_spec = _SynthStripInputSpec
-)
