@@ -33,7 +33,7 @@ _default_model_path = Path(_fs_home) / "models" / "synthstrip.1.pt" if _fs_home 
 if _fs_home and not _default_model_path.exists():
     _default_model_path = None
 
-_SynthStripInputSpec = pydra.specs.SpecInfo(
+SynthStripInputSpec = pydra.specs.SpecInfo(
     name='SynthStripInputSpec',
     fields=[
         (
