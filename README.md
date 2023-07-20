@@ -10,6 +10,9 @@ pip install nipreps-synthstrip
 
 # For the nipype interface
 pip install nipreps-synthstrip[nipype]
+
+# For the pydra interface
+pip install nipreps-synthstrip[pydra]
 ```
 
 ### Command Line Tool
@@ -22,6 +25,19 @@ $ nipreps-synthstrip
 
 ```python
 from nipreps.synthstrip.wrappers.nipype import SynthStrip
+```
+
+### Pydra Interface
+
+```python
+import pydra
+from nipreps.synthstrip.wrappers.pydra import _SynthStripInputSpec
+
+SynthStrip = pydra.ShellCommandTask(
+    name='SynthStrip',
+    executable="nipreps-synthstrip",
+    input_spec = _SynthStripInputSpec
+)
 ```
 
 ## Citation
