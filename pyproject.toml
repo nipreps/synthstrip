@@ -45,6 +45,7 @@ nipype = [
 ]
 pydra = [
     "pydra",
+    "nest_asyncio",
 ]
 test = [
     "pytest",
