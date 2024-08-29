@@ -62,6 +62,9 @@ version-file = "nipreps/synthstrip/_version.py"
 [tool.hatch.build.sources]
 "nipreps/synthstrip" = "nipreps/synthstrip"
 
+[tool.hatch.build.targets.wheel]
+packages = ["nipreps/synthstrip"]
+
 [tool.black]
 exclude = '.*'
 
