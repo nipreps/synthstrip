@@ -3,14 +3,14 @@ name: Build & test
 on:
   push:
     branches:
-      - main
+    - main
     tags:
-      - "*"
+    - "*"
   pull_request:
     branches:
-      - main
+    - main
   schedule:
-    - cron: '0 0 * * 1'
+  - cron: '0 0 * * 1'
 
 defaults:
   run:
@@ -31,71 +31,71 @@ jobs:
       commit_message: ${{ steps.get_commit_message.outputs.commit_message }}
       version: ${{ steps.show_version.outputs.version }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Print head git commit message
-        id: get_commit_message
-        run: |
-          if [[ -z "$COMMIT_MSG" ]]; then
-            COMMIT_MSG=$(git show -s --format=%s $REF)
-          fi
-          echo commit_message=$COMMIT_MSG | tee -a $GITHUB_OUTPUT
-        env:
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
-          REF: ${{ github.event.pull_request.head.sha }}
-      - name: Detect version
-        id: show_version
-        run: |
-          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF##*/}
-          else
-            pipx run hatch version  # Once to avoid output of initial setup
-            VERSION=$( pipx run hatch version )
-          fi
-          echo version=$VERSION | tee -a $GITHUB_OUTPUT
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Print head git commit message
+      id: get_commit_message
+      run: |
+        if [[ -z "$COMMIT_MSG" ]]; then
+          COMMIT_MSG=$(git show -s --format=%s $REF)
+        fi
+        echo commit_message=$COMMIT_MSG | tee -a $GITHUB_OUTPUT
+      env:
+        COMMIT_MSG: ${{ github.event.head_commit.message }}
+        REF: ${{ github.event.pull_request.head.sha }}
+    - name: Detect version
+      id: show_version
+      run: |
+        if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          VERSION=${GITHUB_REF##*/}
+        else
+          pipx run hatch version  # Once to avoid output of initial setup
+          VERSION=$( pipx run hatch version )
+        fi
+        echo version=$VERSION | tee -a $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3
-      - name: Display Python information
-        run: python -c "import sys; print(sys.version)"
-      - name: Build sdist and wheel
-        run: pipx run build
-      - name: Check release tools
-        run: pipx run twine check dist/*
-      - name: Save build output
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist/
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3
+    - name: Display Python information
+      run: python -c "import sys; print(sys.version)"
+    - name: Build sdist and wheel
+      run: pipx run build
+    - name: Check release tools
+      run: pipx run twine check dist/*
+    - name: Save build output
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
 
   test:
     needs: [job_metadata, build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         install: [repo]
         include:
-          - python-version: "3.11"
-            install: sdist
-          - python-version: "3.11"
-            install: wheel
-          - python-version: "3.11"
-            install: editable
+        - python-version: "3.12"
+          install: sdist
+        - python-version: "3.12"
+          install: wheel
+        - python-version: "3.12"
+          install: editable
     env:
       INSTALL_TYPE: ${{ matrix.install }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       if: matrix.install == 'repo' || matrix.install == 'editable'
       with:
         fetch-depth: 0
@@ -138,11 +138,11 @@ jobs:
     needs: test
     if: github.repository == 'nipreps/synthstrip' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+    - uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    - uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}

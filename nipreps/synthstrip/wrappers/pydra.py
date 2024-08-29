@@ -23,12 +23,13 @@
 """SynthStrip interface."""
 
 import os
-import attr
 from pathlib import Path
+
+import attr
 import pydra
 
-_fs_home = os.getenv("FREESURFER_HOME", None)
-_default_model_path = Path(_fs_home) / "models" / "synthstrip.1.pt" if _fs_home else None
+_fs_home = os.getenv('FREESURFER_HOME', None)
+_default_model_path = Path(_fs_home) / 'models' / 'synthstrip.1.pt' if _fs_home else None
 
 if _fs_home and not _default_model_path.exists():
     _default_model_path = None
@@ -41,7 +42,7 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             attr.ib(
                 type=str,
                 metadata={
-                    'argstr': "-i",
+                    'argstr': '-i',
                     'help_string': 'Input image to skullstrip',
                     'mandatory': True,
                 },
@@ -51,18 +52,18 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             'out_file',
             str,
             {
-                'argstr': "-o",
-                "help_string": "Save stripped image to path",
-                "output_file_template": "{in_file}_desc-brain.nii.gz",
+                'argstr': '-o',
+                'help_string': 'Save stripped image to path',
+                'output_file_template': '{in_file}_desc-brain.nii.gz',
             },
         ),
         (
             'out_mask',
             str,
             {
-                'argstr': "-m",
-                "help_string": "Save binary brain mask to path",
-                "output_file_template": "{in_file}_desc-brain_mask.nii.gz",
+                'argstr': '-m',
+                'help_string': 'Save binary brain mask to path',
+                'output_file_template': '{in_file}_desc-brain_mask.nii.gz',
             },
         ),
         (
@@ -70,7 +71,7 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             bool,
             False,
             {
-                'argstr': "-g",
+                'argstr': '-g',
                 'help_string': 'Use the GPU',
             },
         ),
@@ -79,8 +80,8 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             int,
             1,
             {
-                'argstr': "-b",
-                "help_string": "Mask border threshold in mm",
+                'argstr': '-b',
+                'help_string': 'Mask border threshold in mm',
             },
         ),
         (
@@ -88,7 +89,7 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             bool,
             False,
             {
-                'argstr': "--no-csf",
+                'argstr': '--no-csf',
                 'help_string': 'Exclude CSF from brain border',
             },
         ),
@@ -97,16 +98,16 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
             pydra.specs.File,
             str(_default_model_path),
             {
-                'argstr': "--model",
-                "help_string": "File containing model's weights",
+                'argstr': '--model',
+                'help_string': "File containing model's weights",
             },
         ),
         (
             'num_threads',
             int,
             {
-                'argstr': "-n",
-                "help_string": "Number of threads",
+                'argstr': '-n',
+                'help_string': 'Number of threads',
             },
         ),
     ],
@@ -114,6 +115,5 @@ SynthStripInputSpec = pydra.specs.SpecInfo(
 )
 
 SynthStrip = pydra.ShellCommandTask(
-    executable="nipreps-synthstrip",
-    input_spec = SynthStripInputSpec
+    executable='nipreps-synthstrip', input_spec=SynthStripInputSpec
 )
