@@ -21,12 +21,14 @@
 #     https://www.nipreps.org/community/licensing/
 #
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
+
     from nipreps.synthstrip.cli import main
+
     from . import __name__ as module
 
     # `python -m <module>` typically displays the command as __main__.py
-    if "__main__.py" in sys.argv[0]:
-        sys.argv[0] = "%s -m %s" % (sys.executable, module)
+    if '__main__.py' in sys.argv[0]:
+        sys.argv[0] = f'{sys.executable} -m {module}'
     main()
