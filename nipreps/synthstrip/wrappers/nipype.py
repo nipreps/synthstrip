@@ -23,6 +23,7 @@
 """SynthStrip interface."""
 
 import os
+from contextlib import suppress
 from pathlib import Path
 
 from nipype.interfaces.base import (
@@ -37,8 +38,10 @@ from nipype.interfaces.base import (
 _fs_home = os.getenv('FREESURFER_HOME', None)
 _default_model_path = Path(_fs_home) / 'models' / 'synthstrip.1.pt' if _fs_home else Undefined
 
-if _fs_home and not _default_model_path.exists():
-    _default_model_path = Undefined
+use_defaultmodel = False
+with suppress(AttributeError):
+    use_defaultmodel = _default_model_path.exists()
+    _default_model_path = str(_default_model_path)
 
 
 class _SynthStripInputSpec(CommandLineInputSpec):
@@ -50,8 +53,8 @@ class _SynthStripInputSpec(CommandLineInputSpec):
     )
     use_gpu = traits.Bool(False, usedefault=True, argstr='-g', desc='Use GPU', nohash=True)
     model = File(
-        str(_default_model_path),
-        usedefault=True,
+        _default_model_path,
+        usedefault=use_defaultmodel,
         exists=True,
         argstr='--model %s',
         desc="file containing model's weights",
