@@ -22,6 +22,7 @@
 #
 """SynthStrip interface."""
 
+import logging
 import os
 from pathlib import Path
 
@@ -30,15 +31,11 @@ from nipype.interfaces.base import (
     CommandLineInputSpec,
     File,
     TraitedSpec,
-    Undefined,
+    isdefined,
     traits,
 )
 
-_fs_home = os.getenv('FREESURFER_HOME', None)
-_default_model_path = Path(_fs_home) / 'models' / 'synthstrip.1.pt' if _fs_home else Undefined
-
-if _fs_home and not _default_model_path.exists():
-    _default_model_path = Undefined
+IFLOGGER = logging.getLogger('nipype.interface')
 
 
 class _SynthStripInputSpec(CommandLineInputSpec):
@@ -50,8 +47,6 @@ class _SynthStripInputSpec(CommandLineInputSpec):
     )
     use_gpu = traits.Bool(False, usedefault=True, argstr='-g', desc='Use GPU', nohash=True)
     model = File(
-        str(_default_model_path),
-        usedefault=True,
         exists=True,
         argstr='--model %s',
         desc="file containing model's weights",
@@ -78,6 +73,26 @@ class _SynthStripOutputSpec(TraitedSpec):
 
 
 class SynthStrip(CommandLine):
+    """NiPrep implementation of FreeSurfer's SynthStrip."""
+
     _cmd = 'nipreps-synthstrip'
     input_spec = _SynthStripInputSpec
     output_spec = _SynthStripOutputSpec
+
+    def _parse_inputs(self, skip=None):
+        if not isdefined(self.inputs.model):
+            self._set_default_model()
+        return super()._parse_inputs(skip or [])
+
+    def _set_default_model(self):
+        model = None
+        fs_home = os.getenv('FREESURFER_HOME', None)
+        if fs_home and Path(fs_home).exists():
+            model = Path(fs_home) / 'models' / 'synthstrip.1.pt'
+
+        if not model or not model.exists():
+            IFLOGGER.warning('No SynthStrip model was found.')
+            return
+
+        IFLOGGER.info('Using default SynthStrip model: %s', model.name)
+        self.inputs.model = model
