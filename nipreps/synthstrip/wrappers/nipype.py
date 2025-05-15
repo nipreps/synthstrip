@@ -23,6 +23,7 @@
 """SynthStrip interface."""
 
 import os
+from contextlib import suppress
 from pathlib import Path
 
 from nipype.interfaces.base import (
@@ -38,10 +39,8 @@ _fs_home = os.getenv('FREESURFER_HOME', None)
 _default_model_path = Path(_fs_home) / 'models' / 'synthstrip.1.pt' if _fs_home else Undefined
 
 use_defaultmodel = False
-if _fs_home and not _default_model_path.exists():
-    _default_model_path = Undefined
-else:
-    use_defaultmodel = True
+with suppress(AttributeError):
+    use_defaultmodel = _default_model_path.exists()
     _default_model_path = str(_default_model_path)
 
 
